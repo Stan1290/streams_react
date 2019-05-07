@@ -4,11 +4,18 @@ import { fetchStreams } from '../../actions/index';
 import { Link } from 'react-router-dom';
 
 class StreamList extends React.Component {
-	componentDidMount () {
+	state = {
+		tripsPerPage: 10,
+		currentPage: 1,
+		tripCount: 0,
+		trips: {}
+	};
+	componentDidMount() {
 		this.props.fetchStreams();
+		this.setState({ trips: this.props.streams });
 	}
 
-	renderList () {
+	renderList() {
 		return this.props.streams.map((stream) => {
 			return (
 				<div className="item" key={stream.id}>
@@ -23,7 +30,7 @@ class StreamList extends React.Component {
 		});
 	}
 
-	renderAdmin (stream) {
+	renderAdmin(stream) {
 		if (stream.userId === this.props.currentUserId) {
 			return (
 				<div className="right floated content">
@@ -36,7 +43,7 @@ class StreamList extends React.Component {
 		}
 	}
 
-	renderCreate () {
+	renderCreate() {
 		if (this.props.isSignedIn) {
 			return (
 				<div style={{ textAlign: 'right' }}>
@@ -48,7 +55,7 @@ class StreamList extends React.Component {
 		}
 	}
 
-	render () {
+	render() {
 		return (
 			<div>
 				<h2>Streams</h2>
@@ -60,9 +67,9 @@ class StreamList extends React.Component {
 }
 const mapStateToProps = (state) => {
 	return {
-		streams       : Object.values(state.streams),
-		currentUserId : state.auth.userId,
-		isSignedIn    : state.auth.isSignedIn
+		streams: Object.values(state.streams),
+		currentUserId: state.auth.userId,
+		isSignedIn: state.auth.isSignedIn
 	};
 };
 

@@ -4,14 +4,14 @@ import history from '../history';
 
 export const signIn = (userId) => {
 	return {
-		type    : SIGN_IN,
-		payload : userId
+		type: SIGN_IN,
+		payload: userId
 	};
 };
 
 export const signOut = () => {
 	return {
-		type : SIGN_OUT
+		type: SIGN_OUT
 	};
 };
 
@@ -40,8 +40,9 @@ export const fetchStream = (id) => {
 
 export const editStream = (id, formValues) => {
 	return async (dispatch) => {
-		const response = await streams.put(`/streams/${id}`, formValues);
+		const response = await streams.patch(`/streams/${id}`, formValues);
 		dispatch({ type: EDIT_STREAM, payload: response.data });
+		history.push('/');
 	};
 };
 
